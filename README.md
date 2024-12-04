@@ -1,4 +1,4 @@
-# test_app
+# KMUTNB_App
 
 A new Flutter project.
 
