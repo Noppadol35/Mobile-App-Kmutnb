@@ -110,6 +110,8 @@ class ChargingStatusPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
               ),
 
               const SizedBox(height: 16),
@@ -120,6 +122,8 @@ class ChargingStatusPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
               ),
 
               const SizedBox(height: 16),
@@ -130,6 +134,8 @@ class ChargingStatusPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
               ),
 
               const SizedBox(height: 16),
@@ -140,6 +146,8 @@ class ChargingStatusPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
               ),
 
               const SizedBox(height: 16),
@@ -150,6 +158,8 @@ class ChargingStatusPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
               ),
 
               const SizedBox(height: 16),
@@ -160,8 +170,10 @@ class ChargingStatusPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
               ),
-              // Instructional Message
+
               const SizedBox(height: 16),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -171,9 +183,19 @@ class ChargingStatusPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12)),
                 ),
                 onPressed: () {},
-                child: const Text(
-                  "Start Charging",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Start Charging",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                    SizedBox(width: 8),
+                    Icon(
+                      Icons.electric_car,
+                      color: Colors.amber,
+                    ),
+                  ],
                 ),
               ),
             ],
