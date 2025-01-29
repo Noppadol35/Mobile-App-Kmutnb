@@ -13,6 +13,7 @@ class InfoPage extends StatefulWidget {
 
   const InfoPage(
       {super.key,
+
       this.soc,
       this.tarSoc,
       this.chargeRate,
@@ -96,13 +97,12 @@ class _InfoPageState extends State<InfoPage> {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.popAndPushNamed(
-                      context,
-                      '/',
-                    );
+                    Navigator.pop(context, '/');
                   },
                   child: const Text('Back'),
                 ),
+
+                const Card()
               ],
             ),
           ),
