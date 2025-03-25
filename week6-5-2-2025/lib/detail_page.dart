@@ -1,29 +1,7 @@
-//
-
 import 'package:flutter/material.dart';
-// import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'services/http_service.dart';
 import 'models/product.dart';
-
-// fetch 1 record
-Future<Product> fetchRecord({required String strUrl}) async {
-  debugPrint('url: $strUrl');
-  final response = await http.get(Uri.parse(strUrl), headers: {
-    "Accept": "application/json",
-    "content-type": "application/json",
-  });
-
-  if (response.statusCode == 200) {
-    debugPrint('${response.body.toString()}');
-    // debugPrint('${jsonDecode(response.body)}');
-    return Product.fromJson(jsonDecode(response.body));
-  } else {
-    debugPrint('failed loading data!');
-    throw Exception('Failed to load data!');
-  }
-}
 
 class DetailPage extends StatefulWidget {
   final int productId;
@@ -35,10 +13,25 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-  static const String baseUrl = 'https://itpart.net/mobile/api/'; // API json
-  String baseImgUrl = 'https://itpart.net/mobile/images/'; // base Image URL
+  String baseImgUrl = 'https://itpart.net/mobile/images/';
+  String baseUrl = 'https://itpart.net/mobile/api/';
 
-  // HttpService httpService = HttpService();
+  Future<Product> fetchRecord(int productId) async {
+    final response = await http.get(
+      Uri.parse("${baseUrl}product$productId.php"),
+      headers: {
+        "Accept": "application/json",
+        "content-type": "application/json",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Product.fromJson(jsonDecode(response.body));
+    } else {
+      debugPrint('Failed to load data!');
+      throw Exception('Failed to load data!');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,32 +45,36 @@ class _DetailPageState extends State<DetailPage> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              FutureBuilder(
-                future: fetchRecord(
-                    strUrl: '$baseUrl/product${widget.productId}.php'),
-                // future: httpService.fetchRecord(
-                // strUrl:  'https://itpart.net/mobile/api/product1.php'), //fetchData(),
-
+              FutureBuilder<Product>(
+                future: fetchRecord(widget.productId),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    // until data is fetched, show loader
                     return const CircularProgressIndicator();
                   } else if (snapshot.hasData) {
+                    final product = snapshot.data!;
                     return Column(
                       children: [
-                        // Text('${snapshot.data!.id}'),
-                        Text(snapshot.data!.title,
-                            style: Theme.of(context).textTheme.titleLarge),
+                        Text(
+                          product.title,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
                         const SizedBox(height: 10),
-                        Image.network('$baseImgUrl${snapshot.data!.imageUrl}'),
+                        Image.network(
+                          '$baseImgUrl${product.imageUrl}',
+                          errorBuilder: (context, error, stackTrace) => 
+                            const Icon(Icons.image_not_supported, size: 50),
+                        ),
                         const SizedBox(height: 20),
-                        Text(snapshot.data!.description,
-                            style: TextStyle(fontSize: 18)),
+                        Text(product.description,
+                            style: const TextStyle(fontSize: 18)),
+                        const SizedBox(height: 20),
+                        Text('Price: ${product.price}',
+                            style: const TextStyle(fontSize: 18)),
                       ],
                     );
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}',
-                        style: TextStyle(fontSize: 18));
+                        style: const TextStyle(fontSize: 18, color: Colors.red));
                   }
                   return const Text('No data available!');
                 },

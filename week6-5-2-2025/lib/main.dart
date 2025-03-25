@@ -2,7 +2,6 @@ import 'package:ev_charge_car/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'flutter_page.dart';
 import 'list_view.dart';
-import 'login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,8 +30,7 @@ class ChargingStatusPage extends StatelessWidget {
       routes: {
         '/': (context) => const LandingPage( title: 'KMUTNB APP'),
         '/listview': (context) => const MyListPage(),
-        '/flutter': (context) => const MyFutureBuilderPage(),
-        '/login': (context) => const LoginPage(),
+        // '/flutter': (context) => const MyFutureBuilderPage(),
       },
     );
   }

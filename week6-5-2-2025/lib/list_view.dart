@@ -1,5 +1,7 @@
 // ListView
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'detail_page.dart';
 import 'models/product.dart';
@@ -15,7 +17,8 @@ class MyListPage extends StatefulWidget {
 class _MyListPageState extends State<MyListPage> {
   HttpService httpService = HttpService();
 
-  static const  String baseUrl = 'https://itpart.net/mobile/api/products.php'; // API json
+  static const String baseUrl =
+      'https://itpart.net/mobile/api/products.php'; // API json
   String baseImgUrl = 'https://itpart.net/mobile/images/'; // base Image
 
   @override
@@ -24,10 +27,11 @@ class _MyListPageState extends State<MyListPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amberAccent,
-        title: const Text('My App'),
+        title: const Text('ListView Page'),
       ),
       body: Center(
-        child: FutureBuilder(
+        child: 
+        FutureBuilder(
           future: httpService.fetchData(strUrl: baseUrl),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -42,8 +46,18 @@ class _MyListPageState extends State<MyListPage> {
                     width: 86,
                   ),
                   title: Text(products[index].title,
-                      style: TextStyle(fontSize: 18)),
+                      style: const TextStyle(fontSize: 18)),
                   subtitle: Text(products[index].description),
+                  trailing: Column(
+                    children: [
+                      Text(
+                        'Price:${products[index].price}',
+                        style: const TextStyle(fontSize: 11),
+                      ),
+                      //IconButton(onPressed: (){}, icon: const Icon(Icons.add_shopping_cart, size: 18,))
+                    ],
+                  ),
+                      
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
