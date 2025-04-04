@@ -1,11 +1,10 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key, required this.title});
-
   final String title;
-
   @override
   State<LandingPage> createState() => _LandingPageState();
 }
@@ -13,7 +12,6 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   int _counter = 0;
   String? _token;
-
   @override
   void initState() {
     super.initState();
@@ -23,10 +21,10 @@ class _LandingPageState extends State<LandingPage> {
   /// Load the initial counter value from persistent storage on start,
   /// or fallback to 0 if it doesn't exist.
   Future<void> _loadCounter() async {
-    debugPrint('load sharedPref..');
+    log('load sharedPref..');
     final prefs = await SharedPreferences.getInstance();
     _token = prefs.getString('token');
-    debugPrint('token: $_token');
+    log('token: $_token');
     setState(() {
       _counter = prefs.getInt('counter') ?? 0;
     });
@@ -41,7 +39,7 @@ class _LandingPageState extends State<LandingPage> {
   Future<void> _incrementCounter() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', 'abcd1234');
-    debugPrint('saved token..');
+    log('saved token..');
     setState(() {
       _counter = (prefs.getInt('counter') ?? 0) + 1;
       prefs.setInt('counter', _counter);
@@ -67,12 +65,12 @@ class _LandingPageState extends State<LandingPage> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             Text('token: $_token'),
-
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/listview');
-              }, 
-              child: const Text('ListView'),),
+              },
+              child: const Text('ListView'),
+            ),
           ],
         ),
       ),
@@ -81,7 +79,6 @@ class _LandingPageState extends State<LandingPage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
-
     );
   }
 }
